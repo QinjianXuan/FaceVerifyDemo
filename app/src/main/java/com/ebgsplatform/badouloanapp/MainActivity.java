@@ -2,18 +2,21 @@ package com.ebgsplatform.badouloanapp;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
 import com.ebgsplatform.badouloanapp.faceiddemo.IDCardAutherActivity;
+import com.ebgsplatform.badouloanapp.faceiddemo.InputIdCardActivity;
 import com.ebgsplatform.badouloanapp.faceiddemo.LiveResultActivity;
 import com.ebgsplatform.badouloanapp.utils.ToastAlert;
+import com.ebgsplatform.badouloanapp.utils.dialog.AlertDialogManager;
+import com.ebgsplatform.badouloanapp.utils.permission.PermissionManager;
+import com.ebgsplatform.badouloanapp.utils.permission.PermissionProhibitedListener;
+import com.ebgsplatform.badouloanapp.utils.permission.RequestPermissionCallback;
+import com.ebgsplatform.badouloanapp.utils.preferences.PreferenceManager;
 import com.megvii.licensemanager.Manager;
 import com.megvii.livenessdetection.LivenessLicenseManager;
 import com.megvii.livenesslib.LivenessActivity;
@@ -39,31 +42,61 @@ public class MainActivity extends AppCompatActivity {
             case R.id.btn_auther:
                 //实名认证 验证身份证入口
 
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                            && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                            && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        //进行权限请求
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_REQ_CAMERA_CODE);
-                    } else {
-                        startActivity(new Intent(this, IDCardAutherActivity.class));
-                    }
-                }
+                PermissionManager.performWithPermission(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .showRationaleBeforeRequest("请授予相机权限以启用功能")
+                        .doOnProhibited(new PermissionProhibitedListener() {
+                            @Override
+                            public void onProhibited(String permission) {
+                                PermissionManager.showPermissionProhibitedDialog(MainActivity.this, permission);
+                            }
+                        })
+                        .perform(this, new RequestPermissionCallback() {
+                            @Override
+                            public void onGranted() {
+                                //                                AlertDialogManager.showAlertDialog("权限已授予");
+                                startActivity(new Intent(MainActivity.this, IDCardAutherActivity.class));
+                            }
+
+                            @Override
+                            public void onDenied() {
+                                AlertDialogManager.showAlertDialog("未授予权限");
+                            }
+                        });
+
+
 
                 break;
             case R.id.btn_load:
                 //头像认证 验证头像入口
 
-                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                            && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                            && ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        //进行权限请求
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE}, EXTERNAL_STORAGE_REQ_CAMERA_CODE);
-                    } else {
-                        startActivityForResult(new Intent(this, LivenessActivity.class), PAGE_INTO_LIVENESS);
-                    }
-                }
+
+                PermissionManager.performWithPermission(Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .showRationaleBeforeRequest("请授予相机权限以启用功能")
+                        .doOnProhibited(new PermissionProhibitedListener() {
+                            @Override
+                            public void onProhibited(String permission) {
+                                PermissionManager.showPermissionProhibitedDialog(MainActivity.this, permission);
+                            }
+                        })
+                        .perform(this, new RequestPermissionCallback() {
+                            @Override
+                            public void onGranted() {
+                                //                                AlertDialogManager.showAlertDialog("权限已授予");
+                                String name = PreferenceManager.getDefault().getString("name","");
+                                String idCardNum = PreferenceManager.getDefault().getString("idNum","");
+                                if(TextUtils.isEmpty(name) || TextUtils.isEmpty(idCardNum)){
+                                    startActivity(new Intent(MainActivity.this, InputIdCardActivity.class));
+                                }else{
+                                    startActivityForResult(new Intent(MainActivity.this, LivenessActivity.class), PAGE_INTO_LIVENESS);
+                                }
+                            }
+
+                            @Override
+                            public void onDenied() {
+                                AlertDialogManager.showAlertDialog("未授予权限");
+                            }
+                        });
+
                 break;
         }
     }

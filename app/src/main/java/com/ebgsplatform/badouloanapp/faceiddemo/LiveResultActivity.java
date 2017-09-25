@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.ebgsplatform.badouloanapp.R;
 import com.ebgsplatform.badouloanapp.faceiddemo.view.RotaterView;
 import com.ebgsplatform.badouloanapp.utils.FileUtil;
+import com.ebgsplatform.badouloanapp.utils.preferences.PreferenceManager;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -119,8 +120,8 @@ public class LiveResultActivity extends AppCompatActivity implements View.OnClic
     public void imageVerify(Map<String, byte[]> images, String delta) {
 
         RequestParams requestParams = new RequestParams();
-        requestParams.put("idcard_name", "轩勤俭");
-        requestParams.put("idcard_number", "411421198911051632");
+        requestParams.put("idcard_name", PreferenceManager.getDefault().getString("name",""));
+        requestParams.put("idcard_number", PreferenceManager.getDefault().getString("idNum",""));
 //        try {
 //            requestParams.put("image_ref1", new FileInputStream(new File(
 //                    "image_idcard")));// 传入身份证头像照片路径

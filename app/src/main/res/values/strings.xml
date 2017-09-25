@@ -11,4 +11,10 @@
     <string name="meglive_returnbtn">返回首页</string>
     <string name="meglive_liveness_again">重新验证活体</string>
     <string name="action_settings">Settings</string>
+
+    <string name="toast_permission_denied"> permission has been disabled. please go to Settings to open it</string>
+    <string name="framework_text_dialog_confirm">确认</string>
+    <string name="framework_text_dialog_cancel">取消</string>
+    <string name="framework_text_empty">no data</string>
+    <string name="framework_text_error">load failed, click to retry</string>
 </resources>
