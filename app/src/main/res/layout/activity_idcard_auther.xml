@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_loading_rootRel"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffffff"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/sfz_layout_progressbarRel">
+
+        <RelativeLayout
+            android:id="@+id/sfz_layout_frontRel"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:id="@+id/sfz_layout_frontLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:visibility="gone"
+                android:orientation="vertical">
+
+                <com.megvii.idcardlib.view.AutoRatioImageview
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="身份证人像面"
+                    android:textColor="#91b7c1"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <com.megvii.idcardlib.view.AutoRatioImageview
+                android:id="@+id/sfz_layout_frontImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                android:src="@drawable/sfz_idcard_front" />
+
+            <ImageView
+                android:id="@+id/sfz_layout_frontLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:alpha="0.5"
+                android:scaleType="centerInside"
+                android:src="@drawable/megvii_logo_t"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/sfz_layout_backRel"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:background="#f6f5f4"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:id="@+id/sfz_layout_backLinear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <com.megvii.idcardlib.view.AutoRatioImageview
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:text="身份证国徽面"
+                    android:textColor="#91b7c1"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <com.megvii.idcardlib.view.AutoRatioImageview
+                android:id="@+id/sfz_layout_backImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:scaleType="center"
+                android:src="@drawable/sfz_idcard_back" />
+
+            <ImageView
+                android:id="@+id/sfz_layout_backLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:alpha="0.5"
+                android:scaleType="centerInside"
+                android:src="@drawable/megvii_logo_t"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_weight="1.0"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/sfz_layout_shibieBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/bg_button1_select"
+                android:gravity="center"
+                android:text="上传并识别"
+                android:textColor="#ffffffff"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/sfz_layout_inputBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/bg_button2_select"
+                android:gravity="center"
+                android:text="手动输入"
+                android:visibility="gone"
+                android:textColor="#ffffffff"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/sfz_layout_progressbarRel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:scaleType="center"
+        android:src="@drawable/newfacelogo" />
+
+    <include
+        layout="@layout/bottom_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>
+
+

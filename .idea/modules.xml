@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Badouloanapp.iml" filepath="$PROJECT_DIR$/Badouloanapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/IDCardLibs/IDCardLibs.iml" filepath="$PROJECT_DIR$/IDCardLibs/IDCardLibs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/livenesslib/livenesslib.iml" filepath="$PROJECT_DIR$/livenesslib/livenesslib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/okgo_app/okgo_app.iml" filepath="$PROJECT_DIR$/okgo_app/okgo_app.iml" />
+    </modules>
+  </component>
+</project>
