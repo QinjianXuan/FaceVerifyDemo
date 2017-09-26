@@ -2,6 +2,10 @@ package com.ebgsplatform.badouloanapp;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.support.annotation.ColorRes;
+import android.support.annotation.StringRes;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
@@ -106,4 +110,40 @@ public class BDApplication extends Application {
         }
         return application;
     }
+
+
+    /**
+     * 从配置资源获取字符串
+     * */
+    public static String getResString(@StringRes int resId) {
+        Context context = getAppContext();
+        if (context == null) {
+            return null;
+        }
+        return context.getResources().getString(resId);
+    }
+
+    /**
+     * 从配置资源获取字符串
+     * */
+    public static int getResColor(@ColorRes int resId) {
+        Context context = getAppContext();
+        if (context == null) {
+            return 0;
+        }
+        return context.getResources().getColor(resId);
+    }
+
+
+    public static int getUID(){
+        PackageManager pm = getAppContext().getPackageManager();
+        try {
+            ApplicationInfo ai = pm.getApplicationInfo("com.ebgsplatform.badouloanapp", PackageManager.GET_ACTIVITIES);
+            return ai.uid;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
 }

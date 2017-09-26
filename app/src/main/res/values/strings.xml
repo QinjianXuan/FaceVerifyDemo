@@ -17,4 +17,7 @@
     <string name="framework_text_dialog_cancel">取消</string>
     <string name="framework_text_empty">no data</string>
     <string name="framework_text_error">load failed, click to retry</string>
+
+    <!-- 加载框文字内容 -->
+    <string name="loading">正在加载...</string>
 </resources>

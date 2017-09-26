@@ -54,6 +54,11 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onGranted() {
                                 //                                AlertDialogManager.showAlertDialog("权限已授予");
+
+
+
+
+
                                 startActivity(new Intent(MainActivity.this, IDCardAutherActivity.class));
                             }
 

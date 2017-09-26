@@ -18,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ebgsplatform.badouloanapp.BDApplication;
 import com.ebgsplatform.badouloanapp.R;
 import com.ebgsplatform.badouloanapp.faceiddemo.view.RotaterView;
+import com.ebgsplatform.badouloanapp.faceiddemo.view.progressHUD.KProgressHUD;
 import com.ebgsplatform.badouloanapp.utils.FileUtil;
 import com.ebgsplatform.badouloanapp.utils.preferences.PreferenceManager;
 import com.loopj.android.http.AsyncHttpClient;
@@ -43,6 +45,7 @@ public class LiveResultActivity extends AppCompatActivity implements View.OnClic
     private Map<String, byte[]> images;
     private String bestImgPath;
     private String envImgPath;
+    private KProgressHUD mKProgressHUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +122,7 @@ public class LiveResultActivity extends AppCompatActivity implements View.OnClic
      */
     public void imageVerify(Map<String, byte[]> images, String delta) {
 
+        showProgress(true);
         RequestParams requestParams = new RequestParams();
         requestParams.put("idcard_name", PreferenceManager.getDefault().getString("name",""));
         requestParams.put("idcard_number", PreferenceManager.getDefault().getString("idNum",""));
@@ -155,7 +159,7 @@ public class LiveResultActivity extends AppCompatActivity implements View.OnClic
                                 double confidence = jsonObject.getJSONObject(
                                         "result_faceid")
                                         .getDouble("confidence");
-
+                                showProgress(false);
                                 Bundle bundle = new Bundle();
                                 bundle.putString("result",String.valueOf(confidence));
 
@@ -300,6 +304,38 @@ public class LiveResultActivity extends AppCompatActivity implements View.OnClic
         if (mMediaPlayer != null) {
             mMediaPlayer.reset();
             mMediaPlayer.release();
+        }
+    }
+
+
+    /**
+     * 开始创建对话框
+     * @param show true show、  false hidden
+     */
+    public void showProgress(boolean show) {
+        showProgressWithText(show, BDApplication.getResString(R.string.loading));
+    }
+
+    /**
+     * Control loading dialog box to show or hide
+     *
+     * @param show    true show、  false hidden
+     * @param message Prompt information
+     */
+    public void showProgressWithText(boolean show, String message) {
+        if (show) {
+            if (mKProgressHUD == null) {
+                mKProgressHUD = new KProgressHUD(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                        .setLabel(message)
+                        .setCancellable(true);
+            }
+            mKProgressHUD.show();
+        } else {
+            if (mKProgressHUD == null)
+                return;
+            if (mKProgressHUD.isShowing()) {
+                mKProgressHUD.dismiss();
+            }
         }
     }
 }

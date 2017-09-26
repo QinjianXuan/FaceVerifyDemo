@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.ebgsplatform.badouloanapp.BDApplication;
 import com.ebgsplatform.badouloanapp.R;
+import com.ebgsplatform.badouloanapp.faceiddemo.view.progressHUD.KProgressHUD;
 import com.ebgsplatform.badouloanapp.http.HttpApi;
 import com.ebgsplatform.badouloanapp.http.HttpRequest;
 import com.ebgsplatform.badouloanapp.module.IDCardFrontInfo;
@@ -23,6 +25,7 @@ import com.google.gson.Gson;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpParams;
 import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
 import com.megvii.idcardlib.IDCardScanActivity;
 import com.megvii.idcardlib.view.AutoRatioImageview;
 import com.megvii.idcardquality.IDCardQualityLicenseManager;
@@ -45,6 +48,7 @@ public class IDCardAutherActivity extends AppCompatActivity {
     private String fileFront;
     private String fileBack;
     private String portraitImg;
+    private KProgressHUD mKProgressHUD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,11 +129,19 @@ public class IDCardAutherActivity extends AppCompatActivity {
         params.put("image",new File(portraitImg));
 
         HttpRequest.formUpload(HttpApi.VERIFY, this, params, new StringCallback() {
+
+
+            @Override
+            public void onStart(Request<String, ? extends Request> request) {
+                super.onStart(request);
+                showProgress(true);
+            }
+
             @Override
             public void onSuccess(Response<String> response) {
 
 
-
+                showProgress(false);
 
                 Gson gson = new Gson();
                 VerifyResultInfo verifyResultInfo = gson.fromJson(response.body().toString(), VerifyResultInfo.class);
@@ -148,7 +160,9 @@ public class IDCardAutherActivity extends AppCompatActivity {
                 startActivity(intent);
 
             }
+
         });
+
 
 
     }
@@ -249,6 +263,38 @@ public class IDCardAutherActivity extends AppCompatActivity {
             }
 
 
+        }
+    }
+
+
+    /**
+     * 开始创建对话框
+     * @param show true show、  false hidden
+     */
+    public void showProgress(boolean show) {
+        showProgressWithText(show, BDApplication.getResString(R.string.loading));
+    }
+
+    /**
+     * Control loading dialog box to show or hide
+     *
+     * @param show    true show、  false hidden
+     * @param message Prompt information
+     */
+    public void showProgressWithText(boolean show, String message) {
+        if (show) {
+            if (mKProgressHUD == null) {
+                mKProgressHUD = new KProgressHUD(this).setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                        .setLabel(message)
+                        .setCancellable(true);
+            }
+            mKProgressHUD.show();
+        } else {
+            if (mKProgressHUD == null)
+                return;
+            if (mKProgressHUD.isShowing()) {
+                mKProgressHUD.dismiss();
+            }
         }
     }
 }

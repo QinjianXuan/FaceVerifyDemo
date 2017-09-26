@@ -69,4 +69,10 @@ public class TotalResultActivity extends AppCompatActivity {
 
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        PreferenceManager.getDefault().clear();
+    }
 }
